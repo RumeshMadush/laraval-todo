@@ -4,16 +4,27 @@
        <br>
         <a href="/todo" class="btn btn-info">Back</a>
        <div class="col-lg-4 col-lg-offset-4"> 
-       <center><h1> Create new Item </h1></center> 
+       <center><h1> {{substr(Route::currentRouteName(),5)}} Item </h1></center> 
 
 
-       <form class="form-horizontal" action="/todo" method="post">
+       <form class="form-horizontal" action="/todo/@yield('editId')" method="post">
             {{csrf_field()}}
-            <fieldset> 
+            @section('editMethod')
+            @show
+            <fieldset>
                 <div class="form-group">
                 <label for="textArea" class="col-lg-2 control-label"></label>
                 <div class="col-lg-10">
-                    <textarea class="form-control" name="body" rows="5" id="textArea"></textarea>
+                    <input type ="text" name="title" class="form-control" value ="@yield('editTitle')"placeholder="title">
+                    <br>
+                    
+                </div>
+                </div>
+
+                <div class="form-group">
+                <label for="textArea" class="col-lg-2 control-label"></label>
+                <div class="col-lg-10">
+                    <textarea class="form-control" name="body" rows="5" id="textArea">@yield('editBody')</textarea>
                     <br>
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div>
@@ -21,13 +32,7 @@
             </fieldset>
         </form>
          
-        @if(count($errors)>0)
-            <div class="alert alert-warning">
-           @foreach($errors->all() as $error)
-             {{$error}}
-            @endforeach
-            </div>
-        @endif
+        @include('partials.errors')
         
-                </div>
+        </div>
 @endsection
